@@ -1,10 +1,8 @@
-import { Attendee } from "./Attendee"
 import { Backbone } from "./Backbone"
-import { CHECK } from './CHECK'
+import { Attendee } from './components/Attendee'
 import { MeshPeer } from "./MeshPeer"
 import { Page } from './Page'
-import { ProxyPeer } from "./Proxy"
-import { Value } from "./Value"
+import { CHECK } from './util/CHECK'
 export class Governor {
     onP2PError(attendee: Attendee) {
         console.log(`Error Creating Connection - Trying Proxy`)
@@ -55,13 +53,13 @@ export class Governor {
         }
     }
     onP2PStreamHealthChange() { }
-    onProxyConnect(proxy: ProxyPeer) {
-        Page.addVideotoProxy(proxy)
-    }
-    onProxyDisconnect() { }
-    onProxyStream() { }
-    onProxyStreamHealthChange() { }
-    onProxyHasPeer(attendee: Attendee, peer: Value.Peer) {
-    }
+    // onProxyConnect(proxy: ProxyPeer) {
+    //     Page.addVideotoProxy(proxy)
+    // }
+    // onProxyDisconnect() { }
+    // onProxyStream() { }
+    // onProxyStreamHealthChange() { }
+    // onProxyHasPeer(attendee: Attendee, peer: Value.Peer) {
+    // }
     constructor(public home_name: string) { }
 }

@@ -1,6 +1,6 @@
 import { test } from 'tap'
 import { StreamPump } from './StreamPump'
-import { AsyncArrayFrom } from "./AsyncArrayFrom"
+import { AsyncArrayFrom } from "./util/AsyncArrayFrom"
 test('StreamPump', async ({ test }) => {
     test('early', async (t) => {
         let sp = new StreamPump<string>()

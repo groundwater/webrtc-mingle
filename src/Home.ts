@@ -1,4 +1,4 @@
-import { Attendee } from "./Attendee"
+import { Attendee } from "./components/Attendee"
 import { EventType } from "./EventType"
 import { StreamMultiplex } from "./StreamMultiplex"
 import { Value } from "./Value"

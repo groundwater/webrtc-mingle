@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { Page } from './Page'
-import { fit180, play } from "./play"
+import { Page } from '../Page'
+import { fit180, play } from "./util/play"
 export function MyStreamElement(page: Page & { autoButton: any }) {
     let videoref = React.createRef<HTMLVideoElement>()
     useEffect(() => {

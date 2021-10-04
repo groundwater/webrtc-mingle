@@ -73,18 +73,18 @@ export namespace Backbone {
         type: EventType.BackboneSignalMessage = EventType.BackboneSignalMessage
         constructor(public connection_id: string, public signal: string) { }
     }
-    export class IHaveConnection {
-        type: EventType.IHaveConnection = EventType.IHaveConnection
-        constructor(public peer: Value.Peer, public connection_id: string) { }
-    }
-    export class ILostConnection {
-        type: EventType.ILostConnection = EventType.ILostConnection
-        constructor(public peer: Value.Peer, public connection_id: string) { }
-    }
-    export class BackboneWhoHas {
-        type: EventType.BackboneWhoHas = EventType.BackboneWhoHas
-        constructor(public peer: Value.Peer) { }
-    }
+    // export class IHaveConnection {
+    //     type: EventType.IHaveConnection = EventType.IHaveConnection
+    //     constructor(public peer: Value.Peer, public connection_id: string) { }
+    // }
+    // export class ILostConnection {
+    //     type: EventType.ILostConnection = EventType.ILostConnection
+    //     constructor(public peer: Value.Peer, public connection_id: string) { }
+    // }
+    // export class BackboneWhoHas {
+    //     type: EventType.BackboneWhoHas = EventType.BackboneWhoHas
+    //     constructor(public peer: Value.Peer) { }
+    // }
     export class BackboneBumpMessage {
         type: EventType.BackboneBumpMessage = EventType.BackboneBumpMessage
     }
@@ -100,49 +100,49 @@ export namespace Backbone {
             public peer: Value.Peer
         ) { }
     }
-    export class ProxySignalReadyEvent {
-        type: EventType.ProxySignalReadyEvent = EventType.ProxySignalReadyEvent
-        constructor(
-            public signal: string
-        ) { }
-    }
-    export class BackboneProxyRouterToProxyPeerSignalEvent {
-        type: EventType.BackboneProxyRouterToProxyPeerSignalEvent = EventType.BackboneProxyRouterToProxyPeerSignalEvent
-        constructor(
-            public connection_id: string,
-            public peer: Value.Peer,
-            public signal: string,
-        ) { }
-    }
-    export class BackboneDnstreamProxyPeerToProxyRouterSignalEvent {
-        type: EventType.BackboneDownstreamProxyPeerToProxyRouterSignalEvent = EventType.BackboneDownstreamProxyPeerToProxyRouterSignalEvent
-        constructor(
-            public connection_id: string,
-            public signal: string,
-        ) { }
-    }
-    export class BackboneUpstreamProxyPeerToProxyRouterSignalEvent {
-        type: EventType.BackboneUpstreamProxyPeerToProxyRouterSignalEvent = EventType.BackboneUpstreamProxyPeerToProxyRouterSignalEvent
-        constructor(
-            public connection_id: string,
-            public signal: string,
-        ) { }
-    }
-    export class BackboneCreateProxyRouterRequestEvent {
-        type: EventType.BackboneCreateProxyRouterRequestEvent = EventType.BackboneCreateProxyRouterRequestEvent
-        constructor(
-            public upstream_connection_id: string,
-            public upstream_peer: Value.Peer,
-        ) { }
-    }
+    // export class ProxySignalReadyEvent {
+    //     type: EventType.ProxySignalReadyEvent = EventType.ProxySignalReadyEvent
+    //     constructor(
+    //         public signal: string
+    //     ) { }
+    // }
+    // export class BackboneProxyRouterToProxyPeerSignalEvent {
+    //     type: EventType.BackboneProxyRouterToProxyPeerSignalEvent = EventType.BackboneProxyRouterToProxyPeerSignalEvent
+    //     constructor(
+    //         public connection_id: string,
+    //         public peer: Value.Peer,
+    //         public signal: string,
+    //     ) { }
+    // }
+    // export class BackboneDnstreamProxyPeerToProxyRouterSignalEvent {
+    //     type: EventType.BackboneDownstreamProxyPeerToProxyRouterSignalEvent = EventType.BackboneDownstreamProxyPeerToProxyRouterSignalEvent
+    //     constructor(
+    //         public connection_id: string,
+    //         public signal: string,
+    //     ) { }
+    // }
+    // export class BackboneUpstreamProxyPeerToProxyRouterSignalEvent {
+    //     type: EventType.BackboneUpstreamProxyPeerToProxyRouterSignalEvent = EventType.BackboneUpstreamProxyPeerToProxyRouterSignalEvent
+    //     constructor(
+    //         public connection_id: string,
+    //         public signal: string,
+    //     ) { }
+    // }
+    // export class BackboneCreateProxyRouterRequestEvent {
+    //     type: EventType.BackboneCreateProxyRouterRequestEvent = EventType.BackboneCreateProxyRouterRequestEvent
+    //     constructor(
+    //         public upstream_connection_id: string,
+    //         public upstream_peer: Value.Peer,
+    //     ) { }
+    // }
 
-    export class BackboneUpstreamToDownstreamRequestProxyViaRouter {
-        type: EventType.BackboneUpstreamToDownstreamRequestProxyViaRouter = EventType.BackboneUpstreamToDownstreamRequestProxyViaRouter
-        constructor(
-            public connection_id: string,
-            public router: Value.Peer,
-        ) { }
-    }
+    // export class BackboneUpstreamToDownstreamRequestProxyViaRouter {
+    //     type: EventType.BackboneUpstreamToDownstreamRequestProxyViaRouter = EventType.BackboneUpstreamToDownstreamRequestProxyViaRouter
+    //     constructor(
+    //         public connection_id: string,
+    //         public router: Value.Peer,
+    //     ) { }
+    // }
 
     export type Message =
         | BackboneBumpMessage
@@ -150,17 +150,17 @@ export namespace Backbone {
         | HelloReplyMessage
         | GoodbyeMessage
         | BackboneSignalMessage
-        | IHaveConnection
-        | ILostConnection
-        | BackboneWhoHas
+        // | IHaveConnection
+        // | ILostConnection
+        // | BackboneWhoHas
         | BackboneMarkPeerAsSpamMessage
         | BackboneForwardStreamRequestMessage
-        | ProxySignalReadyEvent
-        | BackboneProxyRouterToProxyPeerSignalEvent
-        | BackboneCreateProxyRouterRequestEvent
-        | BackboneDnstreamProxyPeerToProxyRouterSignalEvent
-        | BackboneUpstreamProxyPeerToProxyRouterSignalEvent
-        | BackboneUpstreamToDownstreamRequestProxyViaRouter
+    // | ProxySignalReadyEvent
+    // | BackboneProxyRouterToProxyPeerSignalEvent
+    // | BackboneCreateProxyRouterRequestEvent
+    // | BackboneDnstreamProxyPeerToProxyRouterSignalEvent
+    // | BackboneUpstreamProxyPeerToProxyRouterSignalEvent
+    // | BackboneUpstreamToDownstreamRequestProxyViaRouter
 
     /**
      * Incoming Messages

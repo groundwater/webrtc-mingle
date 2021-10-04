@@ -35,7 +35,7 @@
   },
   "scripts": {
     "server.ts": "ts-node-dev src/server.ts",
-    "start.js": "watchify --debug -p [tsify] -o static/start.js src/start.tsx",
+    "start.js": "watchify --debug -p [tsify] -o static/start.js src/start.ts",
     "start": "npm run start.js >&2 | npm run server.ts"
   },
   "keywords": [],

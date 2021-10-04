@@ -1,6 +1,6 @@
 import { test } from 'tap'
-import { AsyncArrayFrom } from './AsyncArrayFrom'
-import { Range } from "./Range"
+import { AsyncArrayFrom } from './util/AsyncArrayFrom'
+import { Range } from "./util/Range"
 import { StreamMultiplex } from './StreamMultiplex'
 import { StreamPump } from './StreamPump'
 

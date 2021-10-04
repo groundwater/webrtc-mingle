@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import { MeshPeer, MeshPeerStreamHealth } from './MeshPeer'
-import { Page } from './Page'
-import { fit180, play } from "./play"
+import { MeshPeer, MeshPeerStreamHealth } from '../MeshPeer'
+import { Page } from '../Page'
+import { fit180, play } from "./util/play"
 
 export const stream_health_colors = {
     [MeshPeerStreamHealth.Unknown]: `#aaaaaa`,

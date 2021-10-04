@@ -3,7 +3,7 @@ import { parse } from "querystring"
 export interface Options {
     name?: string
     auto: boolean
-    auto_proxy_video: boolean,
+    // auto_proxy_video: boolean,
     dev: number
     noreply: boolean
     offer_timeout: number
@@ -15,7 +15,7 @@ let {
     noreply,
     name,
     offer_timeout,
-    auto_proxy_video,
+    // auto_proxy_video,
 } = parse(url.search.substr(1)) as { [name: string]: string | undefined }
 
 function has(t?: string): t is string {
@@ -27,5 +27,5 @@ export const OPTIONS: Options = {
     dev: has(dev) ? +dev : NaN,
     noreply: has(noreply),
     offer_timeout: has(offer_timeout) ? +offer_timeout : NaN,
-    auto_proxy_video: has(auto) || has(auto_proxy_video)
+    // auto_proxy_video: has(auto) || has(auto_proxy_video)
 }

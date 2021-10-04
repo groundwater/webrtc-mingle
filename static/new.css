@@ -1,0 +1,114 @@
+.attendee-list {
+    /* display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; */
+}
+
+.attendee-list-item {
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(225, 225, 225);
+    box-sizing: border-box;
+    padding: 15px 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.attendee {
+    /* border: 1px solid #aaa; */
+}
+
+.connection-list {
+    /* display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; */
+}
+
+.connection-list-item {
+    /* width: 400px; */
+    /* border: 1px solid blue; */
+    margin-bottom: 15px;
+}
+
+.connection {}
+
+.video-frame {
+    overflow: hidden;
+    height: 180px;
+    width: 180px;
+}
+
+.is-spam {
+    border: 2px dotted red;
+    box-sizing: border-box;
+}
+
+.ws-status {
+    display: flex;
+    flex-direction: row;
+}
+
+.ws-status-message {
+    margin: auto 0 auto 0;
+}
+
+.ws-status-btn {
+    margin: auto 0 auto auto;
+}
+
+.my-video {
+    display: flex;
+}
+
+.my-video-frame {
+    /* margin-left: auto; */
+    min-width: 180px;
+}
+
+.my-video-status {
+    margin-left: 25px;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.my-video-controls {
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 25px;
+}
+
+.icon-audio-enabled {
+    background-image: url(/icons/svg/unmute.svg);
+}
+
+.icon-audio-disabled {
+    background-image: url(/icons/svg/mute.svg);
+}
+
+.icon-video-disabled {
+    background-image: url(/icons/svg/novideo.svg);
+}
+
+.icon-video-enabled {
+    background-image: url(/icons/svg/video.svg);
+}
+
+.icon::before {
+    content: "\00a0";
+}
+
+.icon {
+    position: relative;
+    top: 1px;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

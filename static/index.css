@@ -1,0 +1,340 @@
+html, body, .full {
+    height: 100%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* I think this only targets mobile */
+
+@media only screen and (max-width: 1024px) {
+    div.container {
+        padding: 0 !important;
+    }
+}
+
+.my-room, .other-rooms {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14pt;
+    background-color: rgba(200, 200, 200, .5);
+    padding: 10px 5px;
+    color: #333;
+}
+
+/* .room-attendee-list::-webkit-scrollbar {
+    -webkit-appearance: none;
+} */
+
+.room-title {
+    margin-left: 5px;
+    font-variant-caps: all-small-caps;
+    color: #eeeeee;
+    text-shadow: -1px -1px 0 #666, 1px -1px 0 #666, -1px 1px 0 #666, 1px 1px 0 #666;
+}
+
+.container {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* .container::-webkit-scrollbar {
+    -webkit-appearance: none;
+} */
+
+.fixed-controls {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.fixed-control {
+    height: 50px;
+    width: 50px;
+    pointer-events: all;
+    margin: auto;
+}
+
+.fixed-control[data-state="off"] {
+    background-size: cover;
+    background-image: url(/icons/svg/mute.svg);
+}
+
+.fixed-control[data-state="hot"] {
+    background-size: cover;
+    background-image: url(/icons/svg/unmute.svg);
+}
+
+.fixed-control[data-state="ptt"] {
+    background-size: cover;
+    background-image: url(/icons/svg/phone.svg);
+}
+
+.fixed-control[data-state="noptt"] {
+    background-size: cover;
+    background-image: url(/icons/svg/phone-off.svg);
+}
+
+.fixed-control[data-state="mute"] {
+    background-size: cover;
+    background-image: url(/icons/svg/speaker-off.svg);
+}
+
+.fixed-control[data-state="free"] {
+    background-size: cover;
+    background-image: url(/icons/svg/speaker-on.svg);
+}
+
+.fixed-control-list-item {
+    display: flex;
+    border-radius: 25px;
+    background-color: rgba(200, 200, 200, .7);
+    border: 1px solid #aaa;
+    height: 75px;
+    width: 75px;
+    margin-top: 10px;
+}
+
+.fixed-controls-list {
+    margin-left: auto;
+    margin-top: auto;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.room-attendee-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.main-scroll {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.main-viewport {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 100%;
+    width: 100%;
+}
+
+.peer-view {
+    height: 180px;
+    width: 180px;
+    margin-left: 5px;
+    margin-top: 5px;
+    position: relative;
+}
+
+.peer-view .peer-view-stack {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.peer-view .peer-video-clip {
+    overflow: hidden;
+    min-height: 180px;
+    min-width: 180px;
+    max-height: 180px;
+    max-width: 180px;
+}
+
+.peer-view .peer-snapshot {
+    top: 0;
+    left: 0;
+    z-index: -2;
+}
+
+.peer-view .peer-status-list {
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.peer-view:hover .peer-status-list {
+    display: none;
+}
+
+.peer-view:hover .peer-ptt-activate {
+    display: block;
+}
+
+.peer-view .peer-ptt-activate {
+    z-index: 101;
+    display: none;
+    background-color: rgba(255, 255, 255, .9);
+    border-radius: 5px;
+    padding: 5px 10px;
+    /* line-height: 24px; */
+    /* width: 150px; */
+    /* height: 20px; */
+    text-align: center;
+    font-weight: bold;
+    margin: auto;
+    margin-bottom: 5px;
+    /* display: flex; */
+}
+
+.peer-ptt-activate a {
+    color: black!important;
+    text-decoration: none!important;
+    display: flex;
+}
+
+.peer-ptt-button {
+    background: url(/icons/svg/phone-out.svg);
+    background-size: cover;
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+    margin-top: 2px;
+}
+
+.peer-ptt-activate:active {
+    box-shadow: inset 2px 2px 1px #333;
+}
+
+.peer-ptt-activate:hover {
+    cursor: pointer;
+}
+
+.peer-view .peer-status-list .peer-status-item {
+    bottom: 10px;
+    left: 65px;
+    height: 30px;
+    width: 30px;
+    background-color: rgba(255, 255, 255, .9);
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 0 2px;
+}
+
+.peer-status-item .peer-ptt-icon[data-ptt="on"] {
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
+    margin-left: 5px;
+    background: url(/icons/svg/phone.svg);
+    background-size: cover;
+}
+
+.peer-status-item .peer-ptt-icon[data-ptt="off"] {
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
+    margin-left: 5px;
+    background: url(/icons/svg/phone-off.svg);
+    background-size: cover;
+}
+
+.peer-status-item .peer-speaker-icon[data-speaker="on"] {
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
+    margin-left: 4px;
+    background: url(/icons/svg/speaker-on.svg);
+    background-size: cover;
+}
+
+.peer-status-item .peer-speaker-icon[data-speaker="off"] {
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
+    margin-left: 4px;
+    background: url(/icons/svg/speaker-off.svg);
+    background-size: cover;
+}
+
+.peer-status-item .peer-mic-icon[data-mic="on"] {
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
+    margin-left: 5px;
+    background: url(/icons/svg/unmute.svg);
+    background-size: cover;
+}
+
+.peer-status-item .peer-mic-icon[data-mic="off"] {
+    height: 20px;
+    width: 20px;
+    margin-top: 5px;
+    margin-left: 5px;
+    background: url(/icons/svg/mute.svg);
+    background-size: cover;
+}
+
+.pulse-root[data-is_target="on"] {
+    display: block;
+}
+
+.pulse-root {
+    pointer-events: none;
+    display: none;
+    position: absolute;
+    overflow: visible;
+    height: 100%;
+    width: 100%;
+}
+
+.pulse-root:before, .pulse-root:after, .pulse-pulser {
+    position: absolute;
+    z-index: 100;
+    content: '';
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    left: 0%;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #287ec6;
+    animation: glow-grow 2s ease-out infinite;
+}
+
+.pulse-root:after {
+    animation-delay: .66s;
+}
+
+.pulse-pulser {
+    animation-delay: 1.33s;
+}
+
+@keyframes glow-grow {
+    0% {
+        opacity: 0;
+        transform: scale(.5);
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.avatar-me {
+    width: 180px;
+    height: 180px;
+    overflow: hidden;
+    margin-left: '5px';
+    margin-top: '5px';
+}
+
+.minpage div .peer-view {
+    margin-left: 0!important;
+    margin-top: 0!important;
+}

@@ -1,6 +1,10 @@
 import { EEventType } from "./EventType"
 import { UAppendableStream } from "./util/AppendableStream"
 import { Value } from "./Value"
+
+/**
+ * This wraps the websocket connection, providing an addressable "peer" messaging system.
+ */
 export class Backbone {
     stop() {
         this.ws.close()

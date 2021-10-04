@@ -29,6 +29,7 @@ class Player {
         }
     }
 }
+
 class Room {
     private map = new Map<string, Player>()
     delPlayerById(id: string) {

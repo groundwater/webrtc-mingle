@@ -3,6 +3,10 @@ import { Attendee } from './components/Attendee'
 import { MeshPeer } from "./MeshPeer"
 import { Page } from './Page'
 import { CHECK } from './util/CHECK'
+
+/**
+ * The governor is the central object that responds to state changes, such as disconnects or new peers.
+ */
 export class Governor {
     onPageVideoStreamAdded() {
         let { page } = Page

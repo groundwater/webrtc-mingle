@@ -1,3 +1,6 @@
+/**
+ * I think this is an attempt at Value Types, where you compare them with .equals
+ */
 export namespace Value {
     export class Value {
     }
@@ -27,7 +30,5 @@ export namespace Value {
             }
             return peers.get(id)!
         }
-    }
-    export function equal(a: Value, b: Value) {
     }
 }

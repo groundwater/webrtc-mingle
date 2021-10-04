@@ -1,36 +1,8 @@
 import { Attendee } from "./components/Attendee"
 import { EEventType } from "./EventType"
+import { UOrderedSet } from './util/OrderedSet'
 import { UStreamMultiplex } from "./util/StreamMultiplex"
 import { Value } from "./Value"
-
-export class OrderedSet<T> {
-    private _list: T[] = []
-    append(t: T) {
-        this.remove(t)
-        this._list.push(t)
-    }
-    prepend(t: T) {
-        this._list.unshift(t)
-    }
-    bring_to_front(t: T) {
-        this.remove(t)
-        this.prepend(t)
-    }
-    send_to_back(t: T) {
-        this.remove(t)
-        this.append(t)
-    }
-    remove(t: T) {
-        let i = this._list.indexOf(t)
-        if (i === -1) {
-            return
-        }
-        this._list = [...this._list.slice(0, i), ...this._list.slice(i + 1)]
-    }
-    *[Symbol.iterator]() {
-        yield* this._list
-    }
-}
 
 export class Home {
     clearAll() {
@@ -125,7 +97,7 @@ export class Home {
     }
     muxer = new UStreamMultiplex<Home.Events>()
     map = new Map<string, Attendee>()
-    map_sort = new OrderedSet<string>()
+    map_sort = new UOrderedSet<string>()
     constructor(
         public name: string
     ) { }

@@ -104,7 +104,6 @@ class BackboneEventBus {
         while (true) {
             yield Promise.race([
                 new Promise<Backbone.IncomingMessageEvent>(done => this.map.set(id, done)),
-                // abort,
             ])
         }
     }

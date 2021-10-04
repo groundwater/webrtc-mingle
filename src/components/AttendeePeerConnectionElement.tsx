@@ -5,9 +5,6 @@
 // import { play, fit180 } from './util/play'
 // import { CHECK } from "../util/CHECK"
 // import { ProxyPeer } from '../Proxy'
-
-
-// export function AttendeePeerConnectionElement({ peer_id, downstream_peer, proxy }: {
 //     peer_id: string
 //     downstream_peer: Value.Peer
 //     proxy: ProxyPeer
@@ -15,20 +12,12 @@
 //     let video = <div>No Incoming Video Stream</div>
 //     if (proxy.incoming_stream) {
 //         let videoref = React.createRef<HTMLVideoElement>()
-
-//         useEffect(() => {
 //             if (!videoref.current!.srcObject) {
 //                 play(videoref.current!, proxy!.incoming_stream!)
 //             }
 //             fit180(videoref.current!)
 //         })
-
-//         video = <video ref={videoref}></video>
 //     }
-
-//     CHECK(proxy)
-
-//     switch (proxy.router_peer.state) {
 //         case MeshPeer.State.Connected: {
 //             let outgoing
 //             if (Page.page.outgoing_stream) {
@@ -92,8 +81,6 @@
 //                     proxy.router_peer.stop()
 //                 }}>Cancel</button>
 //             </li>)
-
-//             break
 //         }
 //         case MeshPeer.State.Ready: {
 //             return (<li className={`list-group-item-info list-group-item`} key={peer_id}>
@@ -104,8 +91,6 @@
 //                     proxy.router_peer.stop()
 //                 }}>Cancel</button>
 //             </li>)
-
-//             break
 //         }
 //         default:
 //             throw new Error(`Oops`)

@@ -102,11 +102,6 @@ export class Attendee {
     createMessagePeer(peer: Value.Peer, connection_id: string, init: boolean, MeshPeer_ = MeshPeer) {
         let mp = MeshPeer_.CreateForPeer(connection_id, peer, init)
         this.connections.set(connection_id, mp)
-        // this.muxer.mux(async function* () {
-        //     for await (let event of mp.listen()) {
-        //         yield new Attendee.AttendeeMeshPeerEvent(connection_id, event)
-        //     }
-        // }())
         this.connections.set(connection_id, mp)
     }
     [Symbol.asyncIterator]() {
@@ -176,15 +171,10 @@ export namespace Attendee {
         type: EventType.AttendeeNewP2PConnectionEvent = EventType.AttendeeNewP2PConnectionEvent;
         constructor(public connection_id: string) { }
     }
-    // export class AttendeeMeshPeerEvent {
-    //     type: EventType.AttendeeMeshPeerEvent = EventType.AttendeeMeshPeerEvent;
-    //     constructor(public connection_id: string, public event: MeshPeer.Message) { }
-    // }
     export type Events =
         | AttendeeIgnoreSpamEvent
         | AttendeeNewP2PConnectionEvent
         | AttendeeStopEvent
-        // | AttendeeMeshPeerEvent
         | AttendeeReplyP2PConnectionEvent
         | AttendeeMarkSpamEvent
 }

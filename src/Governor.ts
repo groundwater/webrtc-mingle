@@ -4,10 +4,6 @@ import { MeshPeer } from "./MeshPeer"
 import { Page } from './Page'
 import { CHECK } from './util/CHECK'
 export class Governor {
-    onP2PError(attendee: Attendee) {
-        console.log(`Error Creating Connection - Trying Proxy`)
-        Page.tryCreateProxyConnectionTo(attendee.peer)
-    }
     onPageVideoStreamAdded() {
         let { page } = Page
         let { home } = page
@@ -53,13 +49,5 @@ export class Governor {
         }
     }
     onP2PStreamHealthChange() { }
-    // onProxyConnect(proxy: ProxyPeer) {
-    //     Page.addVideotoProxy(proxy)
-    // }
-    // onProxyDisconnect() { }
-    // onProxyStream() { }
-    // onProxyStreamHealthChange() { }
-    // onProxyHasPeer(attendee: Attendee, peer: Value.Peer) {
-    // }
     constructor(public home_name: string) { }
 }

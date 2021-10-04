@@ -3,9 +3,9 @@ import session from 'express-session'
 import expressWs from 'express-ws'
 import { stringify } from 'querystring'
 import { v4 } from 'uuid'
-import { Backbone } from './NEW/Backbone'
-import { EventType } from './NEW/EventType'
-import { Value } from './NEW/Value'
+import { Backbone } from './Backbone'
+import { EventType } from './EventType'
+import { Value } from './Value'
 
 let {
     PORT = '8080'

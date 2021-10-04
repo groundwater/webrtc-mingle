@@ -1,8 +1,8 @@
 {
   "name": "webrtcparty",
+  "private": true,
   "version": "1.0.0",
   "description": "- https://gist.github.com/sagivo/3a4b2f2c7ac6e1b5267c2f1f59ac6c6b - https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/",
-  "main": "index.js",
   "dependencies": {
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.4",
@@ -33,13 +33,10 @@
     "watchify": "^3.11.1",
     "ws": "^7.2.3"
   },
-  "devDependencies": {},
   "scripts": {
-    "start": "ts-node-dev src/server.ts",
-    "start.js": "watchify -p [tsify] -o static/start.js src/app/start.tsx",
-    "new.js": "watchify --debug -p [tsify] -o static/new.js src/NEW/start.tsx",
-    "new": "npm start >&2 | npm run new.js",
-    "dev": "npm start >&2 | npm run start.js"
+    "server.ts": "ts-node-dev src/server.ts",
+    "start.js": "watchify --debug -p [tsify] -o static/start.js src/start.tsx",
+    "start": "npm run start.js >&2 | npm run server.ts"
   },
   "keywords": [],
   "author": "",

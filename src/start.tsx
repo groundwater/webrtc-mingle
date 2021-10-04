@@ -1,11 +1,19 @@
-import { EventType } from "./EventType"
-import { StreamMultiplex } from "./StreamMultiplex"
-import { Value } from "./Value"
+import React from 'react'
+import { v4 } from "uuid"
+import { Attendee } from "./Attendee"
 import { Backbone } from "./Backbone"
-import { Home } from "./Home"
-import { Page } from './Page'
 import { CHECK } from './CHECK'
+import { EventType } from "./EventType"
+import { Governor } from "./Governor"
+import { Home } from "./Home"
+import { MeshPeerStreamHealth } from "./MeshPeer"
+import { never } from "./never"
 import { OPTIONS } from './OPTIONS'
+import { Page } from './Page'
+import { ProxyPeer, ProxyRouter } from "./Proxy"
+import { StreamMultiplex } from "./StreamMultiplex"
+import { Timer } from "./Timer"
+import { Value } from "./Value"
 
 async function start() {
     let { home, name } = Page.page
@@ -61,12 +69,6 @@ async function start() {
 
     muxer.mux(home)
     muxer.mux(Page.listen())
-    // muxer.mux(async function* () {
-    //     while (true) {
-    //         await wait(5 * 1000)
-    //         yield new Timer.TimerRunGC()
-    //     }
-    // }())
 
     let GLOB = window as any
 
@@ -88,15 +90,11 @@ async function start() {
                 break
             }
             case EventType.BackboneClosed: {
-                // We have to assume all other attendees have disconnected,
-                // because even if we reconnect we may have missed a goodbye message.
-                // It's okay. When we reconnect we will issue another hello/reply.
                 for (let at of home.attendees()) {
                     at.ws_status = Attendee.WsStatus.NotConnected
                 }
 
                 if (Page.page.auto_try_reconnect) {
-                    // Page.setBackbone(Backbone.CreateWithHome('a'))
                     governor.onBackboneDisconnect()
                 }
                 break
@@ -189,13 +187,9 @@ async function start() {
                     }
                     case EventType.BackboneForwardStreamRequestMessage: {
                         let { peer } = message
-                        // Open connection with (from)
-                        // Open connection with (peer)
                         break
                     }
                     case EventType.BackboneDownstreamProxyPeerToProxyRouterSignalEvent: {
-                        // You are the router
-                        // This is from your downstream
                         let { signal, connection_id } = message
                         let router = page.proxy_routers.getRouterByConnectionUnchecked(connection_id)
                         CHECK(router)
@@ -204,8 +198,6 @@ async function start() {
                         break
                     }
                     case EventType.BackboneUpstreamProxyPeerToProxyRouterSignalEvent: {
-                        // You are the router
-                        // This is from your downstream
                         let { signal, connection_id } = message
                         let router = page.proxy_routers.getRouterByConnectionUnchecked(connection_id)
                         CHECK(router)
@@ -216,8 +208,6 @@ async function start() {
                         break
                     }
                     case EventType.BackboneProxyRouterToProxyPeerSignalEvent: {
-                        // You are a peer
-                        // The router has sent you a signal
                         let { connection_id, signal, peer } = message
                         let proxy = page.proxy_peers.getBy(connection_id)
                         CHECK(proxy)
@@ -225,8 +215,6 @@ async function start() {
                         break
                     }
                     case EventType.BackboneCreateProxyRouterRequestEvent: {
-                        // You are the router
-                        // Downstream has asked you to initiate a proxy router (via Upstream)
                         let { upstream_peer, upstream_connection_id } = message
                         console.log(`     - from:`, home.nameFromPeer(from))
                         console.log(`     - upstream_peer:`, home.nameFromPeer(upstream_peer))
@@ -235,8 +223,6 @@ async function start() {
                         break
                     }
                     case EventType.BackboneUpstreamToDownstreamRequestProxyViaRouter: {
-                        // You are Downstream
-                        // from is Upstream
                         let { connection_id, router } = message
                         page.proxy_peers.create(true, connection_id, router, from)
                         page.backbone.send(
@@ -287,7 +273,6 @@ async function start() {
                                 let attendee = home.getAttendeeFromPeerUnchecked(peer)
                                 CHECK(attendee)
                                 if (attendee.auto) {
-                                    // Reconnect in Auto mode if no other connections
                                     let conn = home.getAttendeeFromPeerUnchecked(peer)?.getConnectionByIdChecked(connection_id)
                                     if (conn) {
                                         governor.onP2PDisconnect(attendee, conn)
@@ -300,7 +285,6 @@ async function start() {
                                 console.error(`       *`, err)
                                 let attendee = home.getAttendeeFromPeerUnchecked(peer)
                                 CHECK(attendee)
-                                // let conn = home.getAttendeeFromPeerUnchecked(peer)?.getConnectionByIdChecked(connection_id)
                                 if (attendee.auto) {
                                     governor.onP2PError(attendee)
                                 }
@@ -392,13 +376,11 @@ async function start() {
                 break
             }
             case EventType.ProxyMeshPeerEvent: {
-                // You are the up/down sending to the router
                 let { event: message, peer, router, here_is_upstream_side, connection_id } = event
                 let proxy_peer = page.proxy_peers.getByConnectionIdUnchecked(connection_id)
                 CHECK(proxy_peer)
                 console.log(`  \\_ ${EventType[message.type]} from ${home.nameFromPeer(router)}`)
                 switch (message.type) {
-                    // This happened on our side.
                     case EventType.MPSignalGenerated: {
                         let { signal, connection_id } = message
                         let out
@@ -460,8 +442,6 @@ async function start() {
                 break
             }
             case EventType.SignalPeerCreateProxyRouterForPeer: {
-                // You are upstream
-                // You are sending this to downstream
                 let { downstream, router_peer } = event
                 let connection_id = v4()
                 let pp = page.proxy_peers.create(false, connection_id, router_peer, downstream)
@@ -475,8 +455,6 @@ async function start() {
             }
 
             case EventType.ProxyRouterDownstreamSignalEvent: {
-                // You are the router
-                // This connection is to downstream
                 let { event: mp_event, downstream_peer, connection_id } = event
                 let proxy = page.proxy_routers.get(connection_id)!
                 console.log(`  \\_ ${EventType[mp_event.type]} downstream_peer(${home.nameFromPeer(downstream_peer)})`)
@@ -533,8 +511,6 @@ async function start() {
                 break
             }
             case EventType.ProxyRouterUpstreamSignalEvent: {
-                // You are the router
-                // This peer connection is to upstream
                 let { event: mp_event, upstream_peer, connection_id } = event
                 let proxy = page.proxy_routers.get(connection_id)!
                 console.log(`  \\_ ${EventType[mp_event.type]} upstream_peer(${home.nameFromPeer(upstream_peer)})`)
@@ -609,15 +585,6 @@ async function start() {
     }
 }
 
-import React from 'react'
-import { Attendee } from "./Attendee"
-import { parse } from "querystring"
-import { ProxyPeer, ProxyRouter, ProxyRouters } from "./Proxy"
-import { v4 } from "uuid"
-import { never } from "./never"
-import { MeshPeerStreamHealth } from "./MeshPeer"
-import { Governor } from "./Governor"
-import { Timer } from "./Timer"
 
 export function Login() {
     let name_ref = React.createRef<HTMLInputElement>()
@@ -647,14 +614,8 @@ export function Login() {
 async function _start(maybe_name?: string) {
     let url = new URL(location.href)
 
-    // /go/a/b => ['','go','a','b']
     let home = url.pathname.split('/')[2]
 
-    // for (let [key, val] of Object.entries(parse(url.search.substr(1)))) {
-    //     if (val !== undefined) {
-    //         OPTIONS[key] = val || true
-    //     }
-    // }
 
     let {
         name = maybe_name,

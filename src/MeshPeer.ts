@@ -1,8 +1,8 @@
 import SimplePeer, { Instance as SimplePeerType } from "simple-peer"
-import { StreamPump } from "./StreamPump"
 import { EventType } from "./EventType"
-import { Value } from "./Value"
 import { OPTIONS } from "./OPTIONS"
+import { StreamPump } from "./StreamPump"
+import { Value } from "./Value"
 
 export enum MeshPeerStreamHealth {
     Unknown,
@@ -51,7 +51,6 @@ export class MeshPeer {
                 this.state = MeshPeer.State.Offered
                 if (this.offer_timeout_s > 0) {
                     setTimeout(() => {
-                        // We haven't connected yet
                         if (this.state === MeshPeer.State.Offered) {
                             this.pump.pump(new MeshPeer.MeshPeerTimeoutMessage(this.peer, this.connection_id))
                         }
@@ -94,8 +93,6 @@ export class MeshPeer {
         if (this.state === MeshPeer.State.Connected) {
             this.simple_peer.end()
         } else if (this.state === MeshPeer.State.Ready || this.state === MeshPeer.State.Offered) {
-            // If we're not already connected, simple peer will not emit an end event.
-            // We simulate an ending anyways so folks can respond to the peer closing.
             this.state = MeshPeer.State.Ended
             this.pump.pump(new MeshPeer.ConnectionEnded())
         }

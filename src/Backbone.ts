@@ -1,9 +1,8 @@
-import { StreamPump } from "./StreamPump"
 import { EventType } from "./EventType"
+import { StreamPump } from "./StreamPump"
 import { Value } from "./Value"
 export class Backbone {
     stop() {
-        //
         this.ws.close()
     }
     public state = Backbone.State.Ready
@@ -176,11 +175,6 @@ export namespace Backbone {
     /**
      * Outgoing Messages
      */
-    // export enum OutgoingMessageTypes {
-    //     RoomMessage,
-    //     HomeMessage,
-    //     PeerMessage,
-    // }
     export class RoomMessage {
         type: EventType.BBOMRoomMessage = EventType.BBOMRoomMessage
         constructor(public room: Value.Room, public message: Message) { }
@@ -210,10 +204,6 @@ export namespace Backbone {
     export class ConnectEvent {
         type: EventType.BBConnectEvent = EventType.BBConnectEvent
     }
-    // export enum EventTypes {
-    //     ConnectEvent,
-    //     IncomingMessageEvent,
-    // }
     export type Event =
         | IncomingMessageEvent
         | ConnectEvent

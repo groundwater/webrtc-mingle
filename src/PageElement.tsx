@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
+import { CHECK } from './asserts'
+import { AttendeeElement } from './AttendeeElement'
 import { Backbone } from "./Backbone"
+import { ConnectionIncomingVideoElement } from "./ConnectionIncomingVideoElement"
 import { MeshPeer } from './MeshPeer'
 import { MyStreamElement } from "./MyStreamElement"
-import { ConnectionIncomingVideoElement } from "./ConnectionIncomingVideoElement"
 import { Page, VideoView } from "./Page"
-import { AttendeeElement } from './AttendeeElement'
-import { CHECK } from '../base/asserts'
 import { play } from './play'
 export function ConnectionElement(connection: MeshPeer, disabled: boolean) {
     let outgoing_video
@@ -195,7 +195,6 @@ export function PageElement(page: Page) {
                     }))
 
                     stream.getAudioTracks().map(t => t.applyConstraints({
-                        // noiseSuppression: true,
                     }))
 
                     Page.page.outgoing_stream = stream

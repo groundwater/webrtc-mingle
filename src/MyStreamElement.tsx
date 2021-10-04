@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react'
 import { Page } from './Page'
-import { play, fit180 } from "./play"
+import { fit180, play } from "./play"
 export function MyStreamElement(page: Page & { autoButton: any }) {
     let videoref = React.createRef<HTMLVideoElement>()
     useEffect(() => {
         let vid = videoref.current!
         if (!vid.srcObject) {
             let myvideo = page.outgoing_stream!.clone()
-            // Turn off audio for self
             for (let track of myvideo.getAudioTracks()) {
                 track.enabled = false
             }
@@ -19,7 +18,6 @@ export function MyStreamElement(page: Page & { autoButton: any }) {
     let video = page.outgoing_stream!.getVideoTracks()
     let log = []
     for (let a of audio) {
-        // let s = a.getSettings()
         log.push(<div key="audio">Audio: {a.label}</div>)
     }
     for (let v of video) {

@@ -47,7 +47,6 @@ export class StreamMultiplex<T> {
                     yield value
                 }
             } catch (e) {
-                // interrupt
             }
         }
     }

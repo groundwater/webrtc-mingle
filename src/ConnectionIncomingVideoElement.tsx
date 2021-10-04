@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { MeshPeer, MeshPeerStreamHealth } from './MeshPeer'
-import { play, fit180 } from "./play"
 import { Page } from './Page'
+import { fit180, play } from "./play"
 
 export const stream_health_colors = {
     [MeshPeerStreamHealth.Unknown]: `#aaaaaa`,
@@ -27,7 +27,6 @@ export function ConnectionIncomingVideoElement({ connection }: { connection: Mes
         if (!vid.srcObject) {
             play(vid, incoming_stream)
 
-            // Monitor Stream for Delays
             let startOffset = Date.now()
             function checkDelay() {
                 let delta = (Date.now() - startOffset) / 1000 - vid.currentTime
@@ -48,7 +47,6 @@ export function ConnectionIncomingVideoElement({ connection }: { connection: Mes
                     Page.pump.pump(new Page.VideoStreamHealthChangeEvent(connection.connection_id, connection.peer, MeshPeerStreamHealth.Failed))
                 }
             }
-            // setTimeout(checkDelay, 1000)
         }
         fit180(videoref.current!)
     })

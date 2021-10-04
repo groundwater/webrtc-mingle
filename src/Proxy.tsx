@@ -1,7 +1,7 @@
 import { EventType } from "./EventType"
+import { MeshPeer } from "./MeshPeer"
 import { StreamMultiplex } from "./StreamMultiplex"
 import { Value } from "./Value"
-import { MeshPeer } from "./MeshPeer"
 export class ProxyPeers {
     deleteProxy(proxy: ProxyPeer) {
         this.map.delete(proxy.router_peer.connection_id)
@@ -72,8 +72,6 @@ export namespace ProxyPeer {
         ) { }
     }
     export type Event =
-        // | ProxySignalReadyEvent
-        // | ProxySignalPeerEvent
         ProxyMeshPeerEvent
 }
 export class ProxyRouter {

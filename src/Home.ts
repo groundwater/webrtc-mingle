@@ -1,7 +1,7 @@
-import { StreamMultiplex } from "./StreamMultiplex"
-import { Value } from "./Value"
 import { Attendee } from "./Attendee"
 import { EventType } from "./EventType"
+import { StreamMultiplex } from "./StreamMultiplex"
+import { Value } from "./Value"
 
 export class OrderedSet<T> {
     private _list: T[] = []
@@ -23,7 +23,6 @@ export class OrderedSet<T> {
     remove(t: T) {
         let i = this._list.indexOf(t)
         if (i === -1) {
-            // throw new Error(`${t} not in set`)
             return
         }
         this._list = [...this._list.slice(0, i), ...this._list.slice(i + 1)]

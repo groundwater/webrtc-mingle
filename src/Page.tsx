@@ -1,14 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { StreamMultiplex } from "./StreamMultiplex"
 import { Backbone } from "./Backbone"
-import { Home } from "./Home"
-import { PageElement } from './PageElement'
-import { StreamPump } from './StreamPump'
 import { EventType } from './EventType'
-import { ProxyPeer, ProxyPeers, ProxyRouters, ProxyRouter } from './Proxy'
-import { Value } from './Value'
+import { Home } from "./Home"
 import { MeshPeerStreamHealth } from './MeshPeer'
+import { PageElement } from './PageElement'
+import { ProxyPeer, ProxyPeers, ProxyRouter, ProxyRouters } from './Proxy'
+import { StreamMultiplex } from "./StreamMultiplex"
+import { StreamPump } from './StreamPump'
+import { Value } from './Value'
 
 export class Page {
     constructor(
@@ -69,7 +69,6 @@ export namespace Page {
                 continue next_attendee
             }
 
-            // check for Proxy
             for (let proxy of page.proxy_peers.getByPeers(peer)) {
                 if (proxy.incoming_stream) {
                     vv.map.set(peer.id, new VideoView(proxy.router_peer.connection_id, peer, proxy.incoming_stream))

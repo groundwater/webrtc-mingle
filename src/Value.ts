@@ -29,6 +29,5 @@ export namespace Value {
         }
     }
     export function equal(a: Value, b: Value) {
-        //
     }
 }

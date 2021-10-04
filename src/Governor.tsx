@@ -1,10 +1,10 @@
-import { Value } from "./Value"
-import { Backbone } from "./Backbone"
-import { Page } from './Page'
-import { CHECK } from './CHECK'
 import { Attendee } from "./Attendee"
+import { Backbone } from "./Backbone"
+import { CHECK } from './CHECK'
 import { MeshPeer } from "./MeshPeer"
+import { Page } from './Page'
 import { ProxyPeer } from "./Proxy"
+import { Value } from "./Value"
 export class Governor {
     onP2PError(attendee: Attendee) {
         console.log(`Error Creating Connection - Trying Proxy`)
@@ -62,11 +62,6 @@ export class Governor {
     onProxyStream() { }
     onProxyStreamHealthChange() { }
     onProxyHasPeer(attendee: Attendee, peer: Value.Peer) {
-        // let not_me = peer.id !== Page.page.my_id
-        // let existing_proxies = Page.page.proxy_peers.getByPeers(peer)
-        // if (not_me && existing_proxies.length === 0) {
-        //     Page.signalPeerCreateProxyRouterForPeer(attendee.peer, peer)
-        // }
     }
     constructor(public home_name: string) { }
 }

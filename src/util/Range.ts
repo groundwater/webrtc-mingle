@@ -1,4 +1,4 @@
-export async function* Range(a: number, b: number): AsyncGenerator<number> {
+export async function* range(a: number, b: number): AsyncGenerator<number> {
     for (let i = a; i < b; i++) {
         yield i
     }

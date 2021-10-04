@@ -4,7 +4,7 @@ import expressWs from 'express-ws'
 import { stringify } from 'querystring'
 import { v4 } from 'uuid'
 import { Backbone } from './Backbone'
-import { EventType } from './EventType'
+import { EEventType } from './EventType'
 import { Value } from './Value'
 
 let {
@@ -145,16 +145,16 @@ app.ws('/new/:home/backbone', async (ws, req) => {
     ws.onmessage = message => {
         let msg = JSON.parse(message.data.toString('utf-8')) as Backbone.OutgoingMessage
         switch (msg.type) {
-            case EventType.BBOMHomeMessage: {
+            case EEventType.BBOMHomeMessage: {
                 bbeb.send_all_except(merge<string>(myhome), id, msg.message)
                 break
             }
-            case EventType.BBOMPeerMessage: {
+            case EEventType.BBOMPeerMessage: {
                 let { peer: { id: peer_id } } = msg
                 bbeb.send(peer_id, id, msg.message)
                 break
             }
-            case EventType.BBOMRoomMessage: {
+            case EEventType.BBOMRoomMessage: {
                 bbeb.send_all_except(myroom, id, msg.message)
                 break
             }

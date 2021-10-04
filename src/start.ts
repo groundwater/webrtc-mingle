@@ -1,14 +1,14 @@
 import { Backbone } from "./Backbone"
 import { Attendee } from "./components/Attendee"
 import { Login } from './components/Login'
-import { EventType } from "./EventType"
+import { EEventType } from "./EventType"
 import { Governor } from "./Governor"
 import { Home } from "./Home"
 import { OPTIONS } from './OPTIONS'
 import { Page } from './Page'
 import { never } from "./util/never"
 import { UStreamMultiplex } from "./util/StreamMultiplex"
-import { Timer } from "./util/Timer"
+import { Timer } from "./Timer"
 import { Value } from "./Value"
 
 async function start() {
@@ -70,18 +70,18 @@ async function start() {
     let governor = new Governor(name)
 
     for await (let event of muxer.listen()) {
-        console.log(`- ${EventType[event.type]}`)
+        console.log(`- ${EEventType[event.type]}`)
         switch (event.type) {
-            case EventType.BBConnectEvent: {
+            case EEventType.BBConnectEvent: {
                 page.backbone.sendRoom(Value.Home.FromId(home.name), new Backbone.HelloMessage(name))
                 break
             }
-            case EventType.BackboneError: {
+            case EEventType.BackboneError: {
                 let { err } = event
                 console.error(err)
                 break
             }
-            case EventType.BackboneClosed: {
+            case EEventType.BackboneClosed: {
                 for (let at of home.attendees()) {
                     at.ws_status = Attendee.WsStatus.NotConnected
                 }
@@ -91,11 +91,11 @@ async function start() {
                 }
                 break
             }
-            case EventType.Backbone_IncomingMessageEvent: {
+            case EEventType.Backbone_IncomingMessageEvent: {
                 let { from, message } = event
-                console.log('  \\_', EventType[message.type], `from ${(message as any).name || home.nameFromPeer(from)}`)
+                console.log('  \\_', EEventType[message.type], `from ${(message as any).name || home.nameFromPeer(from)}`)
                 switch (message.type) {
-                    case EventType.BBMHelloReplyMessage: {
+                    case EEventType.BBMHelloReplyMessage: {
                         let at = home.createAttendeeFromPeerReply(from, message.name)
                         at.ws_status = Attendee.WsStatus.Connected
                         if (at.auto) {
@@ -103,20 +103,20 @@ async function start() {
                         }
                         break
                     }
-                    case EventType.BBMHelloMessage: {
+                    case EEventType.BBMHelloMessage: {
                         let at = home.createAttendeeFromPeerHello(from, message.name)
                         at.ws_status = Attendee.WsStatus.Connected
                         page.backbone.sendPeer(from, new Backbone.HelloReplyMessage(name))
                         break
                     }
-                    case EventType.BBMGoodbyeMessage: {
+                    case EEventType.BBMGoodbyeMessage: {
                         let at = home.getAttendeeFromPeerUnchecked(from)
                         if (at) {
                             at.ws_status = Attendee.WsStatus.NotConnected
                         }
                         break
                     }
-                    case EventType.BackboneSignalMessage: {
+                    case EEventType.BackboneSignalMessage: {
                         let { signal, connection_id } = message
                         let attendee = home.getAttendeeFromPeerUnchecked(from)
                         if (attendee && !OPTIONS.noreply) {
@@ -126,12 +126,12 @@ async function start() {
                         }
                         break
                     }
-                    case EventType.BackboneBumpMessage: {
+                    case EEventType.BackboneBumpMessage: {
                         let { } = message
                         page.home.bumpPeer(from)
                         break
                     }
-                    case EventType.BackboneMarkPeerAsSpamMessage: {
+                    case EEventType.BackboneMarkPeerAsSpamMessage: {
                         let { peer } = message
                         let attendee = home.getAttendeeFromPeerUnchecked(peer)
                         if (attendee) {
@@ -143,7 +143,7 @@ async function start() {
                         }
                         break
                     }
-                    case EventType.BackboneForwardStreamRequestMessage: {
+                    case EEventType.BackboneForwardStreamRequestMessage: {
                         let { peer } = message
                         break
                     }
@@ -154,28 +154,28 @@ async function start() {
                 }
                 break
             }
-            case EventType.HomeAttendeeEvent: {
+            case EEventType.HomeAttendeeEvent: {
                 let { event: attendee_event, peer } = event
-                console.log(`  \\_ ${EventType[attendee_event.type]}`)
+                console.log(`  \\_ ${EEventType[attendee_event.type]}`)
                 switch (attendee_event.type) {
-                    case EventType.AttendeeNewP2PConnectionEvent: {
+                    case EEventType.AttendeeNewP2PConnectionEvent: {
                         let { connection_id } = attendee_event
                         console.log(`     Initiating new connection ${connection_id} to ${home.nameFromPeer(peer)}`)
                         break
                     }
-                    case EventType.AttendeeStopEvent: {
+                    case EEventType.AttendeeStopEvent: {
                         break
                     }
-                    case EventType.AttendeeReplyP2PConnectionEvent: {
+                    case EEventType.AttendeeReplyP2PConnectionEvent: {
                         let { connection_id } = attendee_event
                         console.log(`     Replying to connection ${connection_id} to ${home.nameFromPeer(peer)}`)
                         break
                     }
-                    case EventType.AttendeeIgnoreSpamEvent: {
+                    case EEventType.AttendeeIgnoreSpamEvent: {
                         console.error(`     Ignoring Spam from Peer ${home.nameFromPeer(attendee_event.peer)}`)
                         break
                     }
-                    case EventType.AttendeeMarkSpamEvent: {
+                    case EEventType.AttendeeMarkSpamEvent: {
                         let { peer } = attendee_event
                         console.error(`     Marking Peer as Spam ${home.nameFromPeer(attendee_event.peer)}`)
                         page.backbone.send(
@@ -193,15 +193,15 @@ async function start() {
                 }
                 break
             }
-            case EventType.TimerRunGC: {
+            case EEventType.TimerRunGC: {
                 home.gc()
                 break
             }
-            case EventType.PageVideoStreamAddedEvent: {
+            case EEventType.PageVideoStreamAddedEvent: {
                 governor.onPageVideoStreamAdded()
                 break
             }
-            case EventType.VideoStreamHealthChangeEvent: {
+            case EEventType.VideoStreamHealthChangeEvent: {
                 let { connection_id, peer } = event
                 break
             }

@@ -1,4 +1,4 @@
-export enum EventType {
+export enum EEventType {
     BBConnectEvent,
     Backbone_IncomingMessageEvent,
     BBMGoodbyeMessage,

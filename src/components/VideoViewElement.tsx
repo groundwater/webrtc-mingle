@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { CHECK } from '../util/asserts'
 import { Page, VideoView } from "../Page"
+import { CHECK } from '../util/CHECK'
 import { play } from './util/play'
 
 export type HasKey = { key: string }

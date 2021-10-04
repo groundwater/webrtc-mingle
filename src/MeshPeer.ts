@@ -1,5 +1,5 @@
 import SimplePeer, { Instance as SimplePeerType } from "simple-peer"
-import { EventType } from "./EventType"
+import { EEventType } from "./EventType"
 import { OPTIONS } from "./OPTIONS"
 import { UAppendableStream } from "./util/AppendableStream"
 import { Value } from "./Value"
@@ -125,41 +125,41 @@ export namespace MeshPeer {
         Ended
     }
     export class MeshPeerTimeoutMessage {
-        type: EventType.MeshPeerTimeoutMessage = EventType.MeshPeerTimeoutMessage
+        type: EEventType.MeshPeerTimeoutMessage = EEventType.MeshPeerTimeoutMessage
         constructor(
             public peer: Value.Peer,
             public connection_id: string,
         ) { }
     }
     export class ConnectionEnded {
-        type: EventType.MPConnectionEnded = EventType.MPConnectionEnded
+        type: EEventType.MPConnectionEnded = EEventType.MPConnectionEnded
     }
     export class ConnectMessage {
-        type: EventType.MPConnectMessage = EventType.MPConnectMessage
+        type: EEventType.MPConnectMessage = EEventType.MPConnectMessage
         constructor() { }
     }
     export class ErrorMessage {
-        type: EventType.MPErrorMessage = EventType.MPErrorMessage
+        type: EEventType.MPErrorMessage = EEventType.MPErrorMessage
         constructor(public err: Error) { }
     }
     export class SendSignalForBackbone {
-        type: EventType.MPSignalGenerated = EventType.MPSignalGenerated
+        type: EEventType.MPSignalGenerated = EEventType.MPSignalGenerated
         constructor(public connection_id: string, public signal: string) { }
     }
     export class IncomingStream {
-        type: EventType.MPIncomingStream = EventType.MPIncomingStream
+        type: EEventType.MPIncomingStream = EEventType.MPIncomingStream
         constructor(public stream: MediaStream) { }
     }
     export class WhoHasMessage {
-        type: EventType.MPWhoHasMessage = EventType.MPWhoHasMessage
+        type: EEventType.MPWhoHasMessage = EEventType.MPWhoHasMessage
         constructor(public peer: Value.Peer) { }
     }
     export class IHaveMessage {
-        type: EventType.MPIHaveMessage = EventType.MPIHaveMessage
+        type: EEventType.MPIHaveMessage = EEventType.MPIHaveMessage
         constructor(public peer: Value.Peer) { }
     }
     export class IncomingPeerEvent {
-        type: EventType.MPIncomingPeerEvent = EventType.MPIncomingPeerEvent
+        type: EEventType.MPIncomingPeerEvent = EEventType.MPIncomingPeerEvent
         constructor(public event: IncomingPeerEvent.Type) { }
     }
     export namespace IncomingPeerEvent {
@@ -168,7 +168,7 @@ export namespace MeshPeer {
         }
     }
     export class SimplePeerPing {
-        type: EventType.SimplePeerPing = EventType.SimplePeerPing
+        type: EEventType.SimplePeerPing = EEventType.SimplePeerPing
     }
     export type Message =
         | ConnectionEnded

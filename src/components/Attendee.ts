@@ -1,5 +1,5 @@
 import { v4 } from "uuid"
-import { EventType } from "../EventType"
+import { EEventType } from "../EventType"
 import { MeshPeer } from "../MeshPeer"
 import { OPTIONS } from "../OPTIONS"
 import { UAppendableStream } from "../util/AppendableStream"
@@ -153,22 +153,22 @@ export namespace Attendee {
         NotConnected,
     }
     export class AttendeeReplyP2PConnectionEvent {
-        type: EventType.AttendeeReplyP2PConnectionEvent = EventType.AttendeeReplyP2PConnectionEvent;
+        type: EEventType.AttendeeReplyP2PConnectionEvent = EEventType.AttendeeReplyP2PConnectionEvent;
         constructor(public connection_id: string) { }
     }
     export class AttendeeIgnoreSpamEvent {
-        type: EventType.AttendeeIgnoreSpamEvent = EventType.AttendeeIgnoreSpamEvent
+        type: EEventType.AttendeeIgnoreSpamEvent = EEventType.AttendeeIgnoreSpamEvent
         constructor(public peer: Value.Peer, public connection_id: string) { }
     }
     export class AttendeeMarkSpamEvent {
-        type: EventType.AttendeeMarkSpamEvent = EventType.AttendeeMarkSpamEvent
+        type: EEventType.AttendeeMarkSpamEvent = EEventType.AttendeeMarkSpamEvent
         constructor(public peer: Value.Peer) { }
     }
     export class AttendeeStopEvent {
-        type: EventType.AttendeeStopEvent = EventType.AttendeeStopEvent;
+        type: EEventType.AttendeeStopEvent = EEventType.AttendeeStopEvent;
     }
     export class AttendeeNewP2PConnectionEvent {
-        type: EventType.AttendeeNewP2PConnectionEvent = EventType.AttendeeNewP2PConnectionEvent;
+        type: EEventType.AttendeeNewP2PConnectionEvent = EEventType.AttendeeNewP2PConnectionEvent;
         constructor(public connection_id: string) { }
     }
     export type Events =

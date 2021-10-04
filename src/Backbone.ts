@@ -1,4 +1,4 @@
-import { EventType } from "./EventType"
+import { EEventType } from "./EventType"
 import { UAppendableStream } from "./util/AppendableStream"
 import { Value } from "./Value"
 export class Backbone {
@@ -40,7 +40,7 @@ export class Backbone {
         this.send(new Backbone.PeerMessage(peer, message))
     }
     send(msg: Backbone.OutgoingMessage) {
-        console.log(`  <-- ${EventType[msg.type]}(${EventType[msg.message.type]})`)
+        console.log(`  <-- ${EEventType[msg.type]}(${EEventType[msg.message.type]})`)
         this.ws.send(JSON.stringify(msg))
     }
     listen(): AsyncGenerator<Backbone.Event> {
@@ -55,35 +55,35 @@ export namespace Backbone {
         Error,
     }
     export class HelloMessage {
-        type: EventType.BBMHelloMessage = EventType.BBMHelloMessage
+        type: EEventType.BBMHelloMessage = EEventType.BBMHelloMessage
         constructor(
             public name: string,
         ) { }
     }
     export class HelloReplyMessage {
-        type: EventType.BBMHelloReplyMessage = EventType.BBMHelloReplyMessage
+        type: EEventType.BBMHelloReplyMessage = EEventType.BBMHelloReplyMessage
         constructor(
             public name: string,
         ) { }
     }
     export class GoodbyeMessage {
-        type: EventType.BBMGoodbyeMessage = EventType.BBMGoodbyeMessage
+        type: EEventType.BBMGoodbyeMessage = EEventType.BBMGoodbyeMessage
     }
     export class BackboneSignalMessage {
-        type: EventType.BackboneSignalMessage = EventType.BackboneSignalMessage
+        type: EEventType.BackboneSignalMessage = EEventType.BackboneSignalMessage
         constructor(public connection_id: string, public signal: string) { }
     }
     export class BackboneBumpMessage {
-        type: EventType.BackboneBumpMessage = EventType.BackboneBumpMessage
+        type: EEventType.BackboneBumpMessage = EEventType.BackboneBumpMessage
     }
     export class BackboneMarkPeerAsSpamMessage {
-        type: EventType.BackboneMarkPeerAsSpamMessage = EventType.BackboneMarkPeerAsSpamMessage
+        type: EEventType.BackboneMarkPeerAsSpamMessage = EEventType.BackboneMarkPeerAsSpamMessage
         constructor(
             public peer: Value.Peer
         ) { }
     }
     export class BackboneForwardStreamRequestMessage {
-        type: EventType.BackboneForwardStreamRequestMessage = EventType.BackboneForwardStreamRequestMessage
+        type: EEventType.BackboneForwardStreamRequestMessage = EEventType.BackboneForwardStreamRequestMessage
         constructor(
             public peer: Value.Peer
         ) { }
@@ -102,7 +102,7 @@ export namespace Backbone {
      * Incoming Messages
      */
     export class IncomingMessageEvent {
-        type: EventType.Backbone_IncomingMessageEvent = EventType.Backbone_IncomingMessageEvent
+        type: EEventType.Backbone_IncomingMessageEvent = EEventType.Backbone_IncomingMessageEvent
         constructor(public message: Message, public from: Value.Peer) { }
     }
     export function fromJSON(json: string): IncomingMessageEvent {
@@ -112,25 +112,25 @@ export namespace Backbone {
      * Outgoing Messages
      */
     export class RoomMessage {
-        type: EventType.BBOMRoomMessage = EventType.BBOMRoomMessage
+        type: EEventType.BBOMRoomMessage = EEventType.BBOMRoomMessage
         constructor(public room: Value.Room, public message: Message) { }
     }
     export class HomeMessage {
-        type: EventType.BBOMHomeMessage = EventType.BBOMHomeMessage
+        type: EEventType.BBOMHomeMessage = EEventType.BBOMHomeMessage
         constructor(public home: Value.Home, public message: Message) { }
     }
     export class PeerMessage {
-        type: EventType.BBOMPeerMessage = EventType.BBOMPeerMessage
+        type: EEventType.BBOMPeerMessage = EEventType.BBOMPeerMessage
         constructor(public peer: Value.Peer, public message: Message) { }
     }
     export class BackboneError {
-        type: EventType.BackboneError = EventType.BackboneError
+        type: EEventType.BackboneError = EEventType.BackboneError
         constructor(
             public err: Error
         ) { }
     }
     export class BackboneClosed {
-        type: EventType.BackboneClosed = EventType.BackboneClosed
+        type: EEventType.BackboneClosed = EEventType.BackboneClosed
     }
     export type OutgoingMessage =
         | RoomMessage
@@ -138,7 +138,7 @@ export namespace Backbone {
         | PeerMessage
 
     export class ConnectEvent {
-        type: EventType.BBConnectEvent = EventType.BBConnectEvent
+        type: EEventType.BBConnectEvent = EEventType.BBConnectEvent
     }
     export type Event =
         | IncomingMessageEvent

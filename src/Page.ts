@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Backbone } from "./Backbone"
 import { PageElement } from './components/PageElement'
-import { EventType } from './EventType'
+import { EEventType } from './EventType'
 import { Home } from "./Home"
 import { MeshPeerStreamHealth } from './MeshPeer'
 import { UAppendableStream } from './util/AppendableStream'
@@ -87,10 +87,10 @@ export namespace Page {
         ReactDOM.render(React.createElement(Elt, page), root)
     }
     export class PageVideoStreamAddedEvent {
-        type: EventType.PageVideoStreamAddedEvent = EventType.PageVideoStreamAddedEvent
+        type: EEventType.PageVideoStreamAddedEvent = EEventType.PageVideoStreamAddedEvent
     }
     export class VideoStreamHealthChangeEvent {
-        type: EventType.VideoStreamHealthChangeEvent = EventType.VideoStreamHealthChangeEvent
+        type: EEventType.VideoStreamHealthChangeEvent = EEventType.VideoStreamHealthChangeEvent
         constructor(
             public connection_id: string,
             public peer: Value.Peer,

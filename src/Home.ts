@@ -1,5 +1,5 @@
 import { Attendee } from "./components/Attendee"
-import { EventType } from "./EventType"
+import { EEventType } from "./EventType"
 import { UStreamMultiplex } from "./util/StreamMultiplex"
 import { Value } from "./Value"
 
@@ -132,7 +132,7 @@ export class Home {
 }
 export namespace Home {
     export class HomeAttendeeEvent {
-        type: EventType.HomeAttendeeEvent = EventType.HomeAttendeeEvent
+        type: EEventType.HomeAttendeeEvent = EEventType.HomeAttendeeEvent
         constructor(
             public peer: Value.Peer,
             public event: Attendee.Events

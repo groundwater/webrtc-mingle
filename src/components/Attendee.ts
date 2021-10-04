@@ -2,8 +2,8 @@ import { v4 } from "uuid"
 import { EventType } from "../EventType"
 import { MeshPeer } from "../MeshPeer"
 import { OPTIONS } from "../OPTIONS"
-import { StreamMultiplex } from "../StreamMultiplex"
-import { StreamPump } from "../StreamPump"
+import { UAppendableStream } from "../util/AppendableStream"
+import { UStreamMultiplex } from "../util/StreamMultiplex"
 import { Value } from "../Value"
 
 export class Attendee {
@@ -16,7 +16,7 @@ export class Attendee {
     }
     reportSpam() {
         if (!this.is_spam) {
-            this.pump.pump(new Attendee.AttendeeMarkSpamEvent(this.peer))
+            this.pump.appendToStream(new Attendee.AttendeeMarkSpamEvent(this.peer))
         }
         this.is_spam = true
         this.disconnect()
@@ -76,8 +76,8 @@ export class Attendee {
         }
     }
     stop() {
-        this.pump.pump(new Attendee.AttendeeStopEvent())
-        this.pump.stop()
+        this.pump.appendToStream(new Attendee.AttendeeStopEvent())
+        this.pump.closeStreamAndEndListeners()
         this.disconnect()
         this.muxer.stop()
     }
@@ -86,14 +86,14 @@ export class Attendee {
             throw new Error(`Spam Attendee Cannot Initiate P2P Connection`)
         }
         this.createMessagePeer(this.peer, connection_id, true)
-        this.pump.pump(new Attendee.AttendeeNewP2PConnectionEvent(connection_id))
+        this.pump.appendToStream(new Attendee.AttendeeNewP2PConnectionEvent(connection_id))
     }
     replyP2PConnection(peer: Value.Peer, connection_id: string, signal: string) {
         if (this.is_spam) {
-            this.pump.pump(new Attendee.AttendeeIgnoreSpamEvent(peer, connection_id))
+            this.pump.appendToStream(new Attendee.AttendeeIgnoreSpamEvent(peer, connection_id))
             return
         }
-        this.pump.pump(new Attendee.AttendeeReplyP2PConnectionEvent(connection_id))
+        this.pump.appendToStream(new Attendee.AttendeeReplyP2PConnectionEvent(connection_id))
         if (!this.connections.has(connection_id)) {
             this.createMessagePeer(peer, connection_id, false)
         }
@@ -134,11 +134,11 @@ export class Attendee {
         public name: string,
         public initiator: boolean,
         public connections = new Map<string, MeshPeer>(),
-        public pump = new StreamPump<Attendee.Events>(),
-        public muxer = new StreamMultiplex<Attendee.Events>(),
+        public pump = new UAppendableStream<Attendee.Events>(),
+        public muxer = new UStreamMultiplex<Attendee.Events>(),
         public ws_status = Attendee.WsStatus.Connected,
     ) {
-        muxer.mux(pump.listen())
+        muxer.addStreamToMultiplex(pump.listen())
     }
     static CreateInitiatorWithPeer(peer: Value.Peer, name: string) {
         return new Attendee(peer, name, true)

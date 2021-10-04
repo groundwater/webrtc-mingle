@@ -1,27 +1,27 @@
 import { EventType } from "./EventType"
-import { StreamPump } from "./StreamPump"
+import { UAppendableStream } from "./util/AppendableStream"
 import { Value } from "./Value"
 export class Backbone {
     stop() {
         this.ws.close()
     }
     public state = Backbone.State.Ready
-    private pump = new StreamPump<Backbone.Event>()
+    private pump = new UAppendableStream<Backbone.Event>()
     private constructor(public ws: WebSocket) {
         ws.onmessage = message => {
-            this.pump.pump(Backbone.fromJSON(message.data))
+            this.pump.appendToStream(Backbone.fromJSON(message.data))
         }
         ws.onopen = () => {
             this.state = Backbone.State.Connected
-            this.pump.pump(new Backbone.ConnectEvent())
+            this.pump.appendToStream(new Backbone.ConnectEvent())
         }
         ws.onerror = err => {
             this.state = Backbone.State.Error
-            this.pump.pump(new Backbone.BackboneError(new Error('Websocket Disconnected')))
+            this.pump.appendToStream(new Backbone.BackboneError(new Error('Websocket Disconnected')))
         }
         ws.onclose = () => {
             this.state = Backbone.State.Closed
-            this.pump.pump(new Backbone.BackboneClosed())
+            this.pump.appendToStream(new Backbone.BackboneClosed())
         }
     }
     static CreateWithHome(home: string) {

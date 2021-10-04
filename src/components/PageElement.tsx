@@ -61,7 +61,7 @@ export function PageElement(page: Page) {
                     }))
 
                     Page.page.outgoing_stream = stream
-                    Page.pump.pump(new Page.PageVideoStreamAddedEvent())
+                    Page.pump.appendToStream(new Page.PageVideoStreamAddedEvent())
                     Page.render()
                 }}>
                     <select className="form-control" ref={video_options_ref}>

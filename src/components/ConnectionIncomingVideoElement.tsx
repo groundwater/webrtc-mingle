@@ -32,19 +32,19 @@ export function ConnectionIncomingVideoElement({ connection }: { connection: Mes
                 let delta = (Date.now() - startOffset) / 1000 - vid.currentTime
                 if (connection.state === MeshPeer.State.Connected) {
                     if (delta <= stream_health_maximums.Best && connection.stream_health != MeshPeerStreamHealth.Best) {
-                        Page.pump.pump(new Page.VideoStreamHealthChangeEvent(connection.connection_id, connection.peer, MeshPeerStreamHealth.Best))
+                        Page.pump.appendToStream(new Page.VideoStreamHealthChangeEvent(connection.connection_id, connection.peer, MeshPeerStreamHealth.Best))
                     } else if (delta < stream_health_maximums.Good && connection.stream_health != MeshPeerStreamHealth.Good) {
-                        Page.pump.pump(new Page.VideoStreamHealthChangeEvent(connection.connection_id, connection.peer, MeshPeerStreamHealth.Good))
+                        Page.pump.appendToStream(new Page.VideoStreamHealthChangeEvent(connection.connection_id, connection.peer, MeshPeerStreamHealth.Good))
                     } else if (delta < stream_health_maximums.Okay && connection.stream_health != MeshPeerStreamHealth.Okay) {
-                        Page.pump.pump(new Page.VideoStreamHealthChangeEvent(connection.connection_id, connection.peer, MeshPeerStreamHealth.Okay))
+                        Page.pump.appendToStream(new Page.VideoStreamHealthChangeEvent(connection.connection_id, connection.peer, MeshPeerStreamHealth.Okay))
                     } else if (delta < stream_health_maximums.Worse && connection.stream_health != MeshPeerStreamHealth.Worse) {
-                        Page.pump.pump(new Page.VideoStreamHealthChangeEvent(connection.connection_id, connection.peer, MeshPeerStreamHealth.Worse))
+                        Page.pump.appendToStream(new Page.VideoStreamHealthChangeEvent(connection.connection_id, connection.peer, MeshPeerStreamHealth.Worse))
                     } else if (connection.stream_health != MeshPeerStreamHealth.Failed) {
-                        Page.pump.pump(new Page.VideoStreamHealthChangeEvent(connection.connection_id, connection.peer, MeshPeerStreamHealth.Failed))
+                        Page.pump.appendToStream(new Page.VideoStreamHealthChangeEvent(connection.connection_id, connection.peer, MeshPeerStreamHealth.Failed))
                     }
                     setTimeout(checkDelay, Math.random() * 2000)
                 } else if (connection.stream_health != MeshPeerStreamHealth.Failed) {
-                    Page.pump.pump(new Page.VideoStreamHealthChangeEvent(connection.connection_id, connection.peer, MeshPeerStreamHealth.Failed))
+                    Page.pump.appendToStream(new Page.VideoStreamHealthChangeEvent(connection.connection_id, connection.peer, MeshPeerStreamHealth.Failed))
                 }
             }
         }

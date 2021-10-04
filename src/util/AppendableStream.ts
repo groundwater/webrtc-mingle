@@ -1,14 +1,14 @@
-export class StreamPump<T> {
+export class UAppendableStream<T> {
     private _halt: any
     private _haltPromise = new Promise<never>((_, halt) => this._halt = halt);
-    pump(t: T) {
+    appendToStream(t: T) {
         if (this._is_stopped) {
             throw new Error(`StreamPump stopped`)
         }
         this._next.push(t)
         this._done()
     }
-    stop(e?: any) {
+    closeStreamAndEndListeners(e?: any) {
         if (this._is_stopped) {
             throw new Error(`Already stopped`)
         }
@@ -17,7 +17,7 @@ export class StreamPump<T> {
     }
     private _is_stopped = false
     private _next: T[] = [];
-    private _done = () => { };
+    private _done = (...a: any) => { };
     async *listen(): AsyncGenerator<T> {
         try {
             let next = this._next

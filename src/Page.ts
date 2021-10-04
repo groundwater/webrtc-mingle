@@ -5,9 +5,8 @@ import { PageElement } from './components/PageElement'
 import { EventType } from './EventType'
 import { Home } from "./Home"
 import { MeshPeerStreamHealth } from './MeshPeer'
-// import { ProxyPeer, ProxyRouter } from './Proxy'
-import { StreamMultiplex } from "./StreamMultiplex"
-import { StreamPump } from './StreamPump'
+import { UAppendableStream } from './util/AppendableStream'
+import { UStreamMultiplex } from "./util/StreamMultiplex"
 import { Value } from './Value'
 
 export class Page {
@@ -44,8 +43,8 @@ export class VideoViews {
 }
 
 export namespace Page {
-    export const pump = new StreamPump<Backbone.Event | Page.Event>()
-    export const muxer = new StreamMultiplex<Backbone.Event | Page.Event /*| ProxyPeer.Event | ProxyRouter.Event */>()
+    export const pump = new UAppendableStream<Backbone.Event | Page.Event>()
+    export const muxer = new UStreamMultiplex<Backbone.Event | Page.Event /*| ProxyPeer.Event | ProxyRouter.Event */>()
     export function get_video_views() {
         let vv = new VideoViews()
 
@@ -63,7 +62,7 @@ export namespace Page {
         return vv
     }
 
-    muxer.mux(pump.listen())
+    muxer.addStreamToMultiplex(pump.listen())
 
     export function Init(home: Home, name: string, auto: boolean): Page {
         console.log(`Init:`, { name, auto, home })
@@ -82,7 +81,7 @@ export namespace Page {
             page.backbone.stop()
         }
         page.backbone = b
-        muxer.mux(b.listen())
+        muxer.addStreamToMultiplex(b.listen())
     }
     export function render(Elt: React.FunctionComponent<any> = PageElement) {
         ReactDOM.render(React.createElement(Elt, page), root)

@@ -4,11 +4,10 @@ import { Login } from './components/Login'
 import { EventType } from "./EventType"
 import { Governor } from "./Governor"
 import { Home } from "./Home"
-import { MeshPeerStreamHealth } from "./MeshPeer"
 import { OPTIONS } from './OPTIONS'
 import { Page } from './Page'
-import { StreamMultiplex } from "./StreamMultiplex"
 import { never } from "./util/never"
+import { UStreamMultiplex } from "./util/StreamMultiplex"
 import { Timer } from "./util/Timer"
 import { Value } from "./Value"
 
@@ -58,10 +57,10 @@ async function start() {
     Page.setBackbone(Backbone.CreateWithHome(Page.page.home.name))
     Page.render()
 
-    let muxer = new StreamMultiplex<Backbone.Event | Home.Events | Timer.Timers | Page.Event /*| ProxyPeer.Event | ProxyRouter.Event | ProxyRouter.Event*/>()
+    let muxer = new UStreamMultiplex<Backbone.Event | Home.Events | Timer.Timers | Page.Event>()
 
-    muxer.mux(home)
-    muxer.mux(Page.listen())
+    muxer.addStreamToMultiplex(home)
+    muxer.addStreamToMultiplex(Page.listen())
 
     let GLOB = window as any
 
@@ -203,12 +202,7 @@ async function start() {
                 break
             }
             case EventType.VideoStreamHealthChangeEvent: {
-                let { connection_id, new_health, peer } = event
-                console.log(`  \\_`, { health: MeshPeerStreamHealth[new_health], peer: home.nameFromPeer(peer) })
-                let conn
-                if (conn = page.home.getAttendeeFromPeerUnchecked(peer)?.getConnectionByIdChecked(connection_id)) {
-                    conn.stream_health = new_health
-                }
+                let { connection_id, peer } = event
                 break
             }
             default: {

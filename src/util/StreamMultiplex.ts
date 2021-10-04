@@ -1,10 +1,10 @@
-export class StreamMultiplex<T> {
+export class UStreamMultiplex<T> {
     stream: AsyncIterator<T>[] = [];
     return: T[] = [];
-    done = () => { };
+    done: any = () => { };
     interrupt_cb = () => {
     }
-    mux(it: AsyncIterable<T>) {
+    addStreamToMultiplex(it: AsyncIterable<T>) {
         this.stream.push(it[Symbol.asyncIterator]())
         this.done()
         this.interrupt_cb()

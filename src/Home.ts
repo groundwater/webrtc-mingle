@@ -1,6 +1,6 @@
 import { Attendee } from "./components/Attendee"
 import { EventType } from "./EventType"
-import { StreamMultiplex } from "./StreamMultiplex"
+import { UStreamMultiplex } from "./util/StreamMultiplex"
 import { Value } from "./Value"
 
 export class OrderedSet<T> {
@@ -84,7 +84,7 @@ export class Home {
         }
 
         let at = Attendee.CreateWithPeer(peer, name)
-        this.muxer.mux(async function* () {
+        this.muxer.addStreamToMultiplex(async function* () {
             for await (let msg of at) {
                 yield new Home.HomeAttendeeEvent(peer, msg)
             }
@@ -101,7 +101,7 @@ export class Home {
         }
 
         let at = Attendee.CreateInitiatorWithPeer(peer, name)
-        this.muxer.mux(async function* () {
+        this.muxer.addStreamToMultiplex(async function* () {
             for await (let msg of at) {
                 yield new Home.HomeAttendeeEvent(peer, msg)
             }
@@ -123,7 +123,7 @@ export class Home {
         }
         this.muxer.stop()
     }
-    muxer = new StreamMultiplex<Home.Events>()
+    muxer = new UStreamMultiplex<Home.Events>()
     map = new Map<string, Attendee>()
     map_sort = new OrderedSet<string>()
     constructor(

@@ -1,7 +1,7 @@
 import SimplePeer, { Instance as SimplePeerType } from "simple-peer"
 import { EventType } from "./EventType"
 import { OPTIONS } from "./OPTIONS"
-import { StreamPump } from "./StreamPump"
+import { UAppendableStream } from "./util/AppendableStream"
 import { Value } from "./Value"
 
 export enum MeshPeerStreamHealth {
@@ -23,7 +23,7 @@ export class MeshPeer {
 
     public stream_health: MeshPeerStreamHealth = MeshPeerStreamHealth.Unknown
 
-    public pump = new StreamPump<MeshPeer.Message>()
+    public pump = new UAppendableStream<MeshPeer.Message>()
     private constructor(
         public connection_id: string,
         public peer: Value.Peer,
@@ -33,18 +33,18 @@ export class MeshPeer {
     ) {
         simple_peer.on('connect', () => {
             this.state = MeshPeer.State.Connected
-            this.pump.pump(new MeshPeer.ConnectMessage())
+            this.pump.appendToStream(new MeshPeer.ConnectMessage())
         })
         simple_peer.on('error', err => {
             this.state = MeshPeer.State.Error
-            this.pump.pump(new MeshPeer.ErrorMessage(err))
+            this.pump.appendToStream(new MeshPeer.ErrorMessage(err))
         })
         simple_peer.on('end', () => {
             if (this.state !== MeshPeer.State.Error) {
                 this.state = MeshPeer.State.Ended
             }
-            this.pump.pump(new MeshPeer.ConnectionEnded())
-            this.pump.stop()
+            this.pump.appendToStream(new MeshPeer.ConnectionEnded())
+            this.pump.closeStreamAndEndListeners()
         })
         simple_peer.on('signal', (offer: string) => {
             if (this.state === MeshPeer.State.Ready) {
@@ -52,19 +52,19 @@ export class MeshPeer {
                 if (this.offer_timeout_s > 0) {
                     setTimeout(() => {
                         if (this.state === MeshPeer.State.Offered) {
-                            this.pump.pump(new MeshPeer.MeshPeerTimeoutMessage(this.peer, this.connection_id))
+                            this.pump.appendToStream(new MeshPeer.MeshPeerTimeoutMessage(this.peer, this.connection_id))
                         }
                     }, this.offer_timeout_s * 1000)
                 }
             }
-            this.pump.pump(new MeshPeer.SendSignalForBackbone(this.connection_id, offer))
+            this.pump.appendToStream(new MeshPeer.SendSignalForBackbone(this.connection_id, offer))
         })
         simple_peer.on('data', (data: Uint8Array) => {
-            this.pump.pump(JSON.parse(data.toString()) as MeshPeer.Message)
+            this.pump.appendToStream(JSON.parse(data.toString()) as MeshPeer.Message)
         })
         simple_peer.on('stream', (stream: MediaStream) => {
             this.incoming_stream = stream
-            this.pump.pump(new MeshPeer.IncomingStream(stream))
+            this.pump.appendToStream(new MeshPeer.IncomingStream(stream))
         })
     }
     static CreateForPeer(connection_id: string, peer: Value.Peer, initiator: boolean) {
@@ -94,7 +94,7 @@ export class MeshPeer {
             this.simple_peer.end()
         } else if (this.state === MeshPeer.State.Ready || this.state === MeshPeer.State.Offered) {
             this.state = MeshPeer.State.Ended
-            this.pump.pump(new MeshPeer.ConnectionEnded())
+            this.pump.appendToStream(new MeshPeer.ConnectionEnded())
         }
     }
     signal(signal: string) {
